@@ -1,16 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
-const app = express();
+const cors = require('cors');
+require('dotenv').config();
 
 const PORT = 3001;
+const app = express();
+
 const todoRoutes = require('./routes/todoRoutes');
 const connectionOptions = { useUnifiedTopology: true, useNewUrlParser: true };
 
 app.use(express.json());
+app.use(cors());
 
 mongoose
-	.connect('mongodb+srv://root:root@cluster0.e4wrh.mongodb.net/test_app?retryWrites=true&w=majority', connectionOptions)
+	.connect(process.env.MONGODB_URI, connectionOptions)
 	.then(() => {
         console.log('connected to MongoDB');		
 	})
